@@ -39,6 +39,18 @@
   .bar nav { display: flex; gap: clamp(14px, 3vw, 32px); font-size: 14px; color: var(--soft); }
   .bar nav a:hover { color: var(--ink); }
   @media (max-width: 640px) { .bar nav { display: none; } }
+  .lang { display: flex; gap: 2px; margin-left: clamp(14px, 3vw, 32px); padding: 2px; border-radius: 99px; box-shadow: inset 0 0 0 1px var(--line); }
+  .lang button { background: none; border: 0; color: var(--faint); font: inherit; font-size: 13px; letter-spacing: .06em; padding: 3px 11px; border-radius: 99px; cursor: pointer; transition: color .2s, background .2s; }
+  .lang button:hover { color: var(--ink); }
+  .lang button[aria-pressed="true"] { color: var(--night); background: var(--ink); }
+  .bar .right { display: flex; align-items: center; }
+  /* English reads better in the Latin serif, with tighter tracking */
+  html[lang="en"] body { font-family: var(--latin); font-weight: 400; font-size: 1.08em; letter-spacing: .01em; line-height: 1.7; }
+  html[lang="en"] h2 { letter-spacing: .03em; line-height: 1.3; }
+  html[lang="en"] .feat h3, html[lang="en"] .region h3, html[lang="en"] .who h3, html[lang="en"] .shot span, html[lang="en"] .fact span { letter-spacing: .04em; }
+  html[lang="en"] .feat h3 { font-size: 19px; font-weight: 600; }
+  html[lang="en"] .region h3 { font-size: 22px; font-weight: 500; }
+  html[lang="en"] .who h3 { font-size: 26px; }
 
   /* ── hero ── */
   .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
@@ -56,9 +68,7 @@
   .store svg { width: 28px; height: 28px; flex: none; }
   .store small { display: block; font-size: 11px; opacity: .85; }
   .store b { display: block; font-size: 20px; font-weight: 600; }
-  .play-web { display: inline-block; margin-top: 22px; font-size: 14px; color: var(--soft); border-bottom: 1px solid var(--line); padding-bottom: 2px; transition: color .2s, border-color .2s; }
-  .play-web:hover { color: var(--glow); border-color: var(--glow); }
-  .scroll-cue { display: block; width: 1px; height: 46px; margin: 34px auto 0; background: linear-gradient(var(--soft), transparent); animation: cue 2.4s ease-in-out infinite; }
+  .scroll-cue { display: block; width: 1px; height: 46px; margin: 40px auto 0; background: linear-gradient(var(--soft), transparent); animation: cue 2.4s ease-in-out infinite; }
   @keyframes cue { 0%,100% { opacity: .2; transform: scaleY(.6); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }
 
   /* ── sections ── */
@@ -180,6 +190,7 @@
 
 <header class="bar" id="bar">
   <a class="mark" href="#top">Wanderlight</a>
+  <div class="right">
   <nav>
     <a href="#story">故事</a>
     <a href="#play">玩法</a>
@@ -187,6 +198,8 @@
     <a href="#gallery">風景</a>
     <a href="#download">下載</a>
   </nav>
+  <div class="lang" id="lang" role="group" aria-label="Language"></div>
+  </div>
 </header>
 
 <main id="top">
@@ -208,7 +221,6 @@
           <span><small>GET IT ON</small><b>Google Play</b></span>
         </a>
       </div>
-      <a class="play-web" href="https://wanderlight.web.app" target="_blank" rel="noopener">或在瀏覽器裡先走一段 →</a>
       <span class="scroll-cue" aria-hidden="true"></span>
     </div>
   </section>
@@ -341,7 +353,7 @@
 
 <footer>
   <div class="mark">Wanderlight</div>
-  <nav><a href="#top">回到頂端</a><a href="https://wanderlight.web.app" target="_blank" rel="noopener">網頁版</a></nav>
+  <nav><a href="#top">回到頂端</a></nav>
   <p>© 2026 Wanderlight. All rights reserved.</p>
 </footer>
 
@@ -354,6 +366,80 @@
 (() => {
   const $ = s => document.querySelector(s);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── languages: the page is written in Chinese; other languages map each Chinese text to a translation.
+  // To add a language, add an entry to LANGS and a dictionary to DICT.
+  const LANGS = [{ id: 'zh', label: '中文', html: 'zh-Hant' }, { id: 'en', label: 'EN', html: 'en' }];
+  const DICT = {
+    en: {
+      '故事': 'Story', '玩法': 'Gameplay', '旅途': 'Journey', '風景': 'Scenery', '下載': 'Download',
+      '迷失方向的旅人，拼回被打亂的風景，<br>也拼回被遺忘的自己。': 'A wanderer who has lost their way pieces scattered landscapes back together,<br>and with them, a forgotten self.',
+      '遺失的方向': 'The Lost Direction',
+      '在遙遠的世界艾瑟蘭，有無數條通往未知的道路。': 'In the distant world of Aetheran, countless roads lead into the unknown.',
+      '最初，旅人會為路邊的一朵花停下，<br>也會仰望夜空中明亮的星辰。': 'Once, the Wayfarer would stop for a flower by the road,<br>and look up at the bright stars of the night.',
+      '但不知從何時開始，前進成了唯一的習慣，<br>珍視的風景一點一點被留在身後。': 'But somewhere along the way, moving on became the only habit,<br>and treasured views were left behind, one by one.',
+      '直到某天走進晨霧裡的森林，<br>道路像被打亂的圖畫，四散在眼前。': 'Until one day, in a forest wrapped in morning mist,<br>the path lay scattered like a shuffled picture.',
+      '隨身的古老羅盤「無北之針」輕輕震動——<br>旅程，從這裡重新開始。': 'The old compass, the Needle Without North, began to tremble —<br>and the journey began again.',
+      '每一片風景，<br>都值得慢慢拼回來': 'Every landscape<br>deserves to be pieced back slowly',
+      '每一關都是一幅手繪的風景，被打亂成一塊塊界片。滑動它們，讓道路重新相連。': 'Each stage is a hand-painted landscape broken into scattered pieces. Slide them, and let the paths join up again.',
+      '滑動，拼回風景': 'Slide the scenery back',
+      '從 3×3 開始，一路到更大的盤面。迷霧、月光、晝夜交替，每個區域都有自己的規則。': 'Start at 3×3 and grow to larger boards. Mist, moonlight, day and night — every region has rules of its own.',
+      '停下來，看見線索': 'Pause, and find the clues',
+      '拼好之後再看一眼。答案藏在太陽、月亮與光束裡，找齊了，才能解開每一章的謎題。': 'Look once more when the picture is whole. Answers hide in the sun, the moon and beams of light — gather them to open each chapter\'s puzzle.',
+      '沒有失敗，只有星星': 'No failure, only stars',
+      '不會輸，也不會卡死。時間與步數只決定一到三顆星，走得慢一點也沒關係。': 'You can\'t lose, and you can\'t get stuck. Time and moves only decide one to three stars, so it\'s fine to go slowly.',
+      '輕觸空格旁的界片': 'Tap a piece next to the gap', '{n} 步': '{n} moves', '霧散了。{n} 步': 'The mist lifts. {n} moves',
+      '重新打亂': 'Shuffle', '試玩｜第 7 關〈霧湖〉': 'Try it · Stage 7, Misty Lake', '試玩拼圖：霧湖': 'Playable puzzle: Misty Lake',
+      '五個區域，五十段風景': 'Five regions, fifty landscapes',
+      '從晨霧松林出發，穿過星墜的洞窟、黃昏的峽谷與月下的庭園，走向一片還沒有名字的原野。': 'Set out from a misty pinewood, through a cavern of fallen stars, a canyon at dusk and a moonlit garden, toward a field that has no name yet.',
+      '晨霧松林': 'Misty Pinewood', '學會停下': 'Learning to pause',
+      '星墜洞窟': 'Starfall Cavern', '重新看見': 'Seeing anew',
+      '黃昏峽谷': 'Twilight Canyon', '接納不完美': 'Embracing imperfection',
+      '月影森庭': 'Moonshadow Garden', '找回自由': 'Finding freedom',
+      '無名原野': 'The Nameless Field', '遇見自己': 'Meeting yourself',
+      '一路上的風景': 'Scenes along the way',
+      '霧起之處': 'Where the Mist Rises', '溪石': 'Stream Stones', '微光': 'Glimmer', '霧湖': 'Misty Lake', '靜水': 'Still Water', '石門前': 'Before the Stone Gate',
+      '同行的人與光': 'A traveller and a light',
+      '旅人<small>The Wayfarer</small>': 'The Wayfarer', '旅人': 'The Wayfarer',
+      '一路向前，卻忘了最初為何出發。帶著古老的羅盤「無北之針」，把錯位的風景一片片拼回原處。': 'Always moving forward, yet no longer sure why the journey began. With the ancient compass, the Needle Without North, the Wayfarer sets each displaced landscape back where it belongs.',
+      'Lumen<small>微光</small>': 'Lumen<small>a little light</small>',
+      '由未熄滅的熱愛凝聚成的一點光。在螢火閃爍的林間與旅人相遇，之後一路同行，在迷路時輕輕照亮。': 'A little light gathered from a passion that never went out. It meets the Wayfarer in a glade of fireflies, then travels alongside, softly lighting the way when the path is lost.',
+      '個區域': 'regions', '段風景': 'landscapes', '道章節謎題': 'chapter puzzles', '次失敗': 'failures',
+      '停下來，看看身後的風景': 'Pause, and look at the view behind you',
+      '手機與平板皆可遊玩。': 'Playable on phones and tablets.',
+      '回到頂端': 'Back to top',
+      '即將上架，敬請期待': 'Coming soon',
+      '旅人站在崖邊仰望銀河': 'The Wayfarer on a cliff, gazing at the Milky Way',
+      '在 App Store 下載': 'Download on the App Store', '在 Google Play 下載': 'Get it on Google Play',
+      '播放主題曲〈Wanderlight〉': 'Play the theme, “Wanderlight”',
+      'Wanderlight — 迷失方向的旅人，拼回被打亂的風景，也拼回被遺忘的自己。一款治癒系滑塊拼圖冒險。': 'Wanderlight — a wanderer who has lost their way pieces scattered landscapes, and a forgotten self, back together. A gentle sliding-puzzle journey.',
+    },
+  };
+  let lang = 'zh';
+  const t = zh => (DICT[lang] && DICT[lang][zh]) || zh;
+  const TEXT = 'nav a, .tag, h2, .poem p, .lead, .feat h3, .feat p, #again, .demo-cap, .region h3, .region p, .shot span, .who h3, .who p, .fact span, footer nav a';
+  const ATTRS = ['alt', 'aria-label', 'content'];
+  const langHooks = [];
+  const setLang = id => {
+    lang = DICT[id] || id === 'zh' ? id : 'zh';
+    const L = LANGS.find(l => l.id === lang);
+    document.documentElement.lang = L.html;
+    document.querySelectorAll(TEXT).forEach(el => {
+      if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+      el.innerHTML = t(el.dataset.zh);
+    });
+    for (const a of ATTRS) document.querySelectorAll(`[${a}]`).forEach(el => {
+      if (a === 'content' && el.getAttribute('name') !== 'description') return;
+      const key = 'zh' + a.replace(/-./g, m => m[1].toUpperCase()).replace(/^./, c => c.toUpperCase());
+      if (el.dataset[key] === undefined) el.dataset[key] = el.getAttribute(a);
+      el.setAttribute(a, t(el.dataset[key]));
+    });
+    document.querySelectorAll('#lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === lang));
+    langHooks.forEach(f => f());
+    try { localStorage.setItem('wanderlight.site.lang', lang); } catch (e) {}
+  };
+  $('#lang').innerHTML = LANGS.map(l => `<button type="button" data-id="${l.id}" lang="${l.html}">${l.label}</button>`).join('');
+  $('#lang').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setLang(b.dataset.id); });
 
   // top bar turns solid after the hero
   const bar = $('#bar');
@@ -372,7 +458,7 @@
   const say = t => { toast.textContent = t; toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('on'), 2400); };
   document.addEventListener('click', e => {
     const a = e.target.closest('.store');
-    if (a && a.getAttribute('href') === '#') { e.preventDefault(); say('即將上架，敬請期待'); }
+    if (a && a.getAttribute('href') === '#') { e.preventDefault(); say(t('即將上架，敬請期待')); }
   });
 
   // twinkling stars + an occasional shooting star over the hero sky
@@ -425,14 +511,16 @@
       [pos[id], pos[N - 1]] = [pos[N - 1], pos[id]]; last = id;
     }
     if (pos.every((p, i) => p === i)) return shuffle();
-    moves = 0; board.classList.remove('done'); $('#moves').textContent = '輕觸空格旁的界片'; place();
+    moves = 0; board.classList.remove('done'); showMoves(); place();
   };
   const tap = id => {
     if (board.classList.contains('done') || !near(pos[id], pos[N - 1])) return;
     [pos[id], pos[N - 1]] = [pos[N - 1], pos[id]]; moves++; place();
-    $('#moves').textContent = `${moves} 步`;
-    if (pos.every((p, i) => p === i)) setTimeout(() => { board.classList.add('done'); $('#moves').textContent = `霧散了。${moves} 步`; }, 220);
+    showMoves();
+    if (pos.every((p, i) => p === i)) setTimeout(() => { board.classList.add('done'); showMoves(); }, 220);
   };
+  const showMoves = () => $('#moves').textContent = board.classList.contains('done') ? t('霧散了。{n} 步').replace('{n}', moves) : moves ? t('{n} 步').replace('{n}', moves) : t('輕觸空格旁的界片');
+  langHooks.push(showMoves);
   $('#again').addEventListener('click', shuffle);
   shuffle();
 
@@ -447,6 +535,12 @@
   addEventListener('keydown', e => { if (e.key === 'Escape') light.classList.remove('on'); });
 
   // theme music, off until the visitor asks
+  // first visit: ?lang=, then the saved choice, then the browser's language
+  let saved = null; try { saved = localStorage.getItem('wanderlight.site.lang'); } catch (e) {}
+  const asked = new URLSearchParams(location.search).get('lang');
+  const browser = (navigator.languages || [navigator.language]).map(l => l.slice(0, 2)).find(l => l === 'zh' || DICT[l]);
+  setLang(asked || saved || browser || 'en');
+
   const audio = $('#theme'), btn = $('#sound');
   btn.addEventListener('click', () => {
     if (audio.paused) { audio.volume = .5; audio.play().then(() => btn.classList.add('on')).catch(() => {}); }
