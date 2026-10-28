@@ -167,8 +167,22 @@
 
   footer { padding: 40px var(--gutter) 48px; text-align: center; color: var(--faint); font-size: 13px; border-top: 1px solid var(--line); }
   footer .mark { font-family: var(--latin); font-size: 20px; color: var(--soft); letter-spacing: .14em; margin-bottom: 8px; }
-  .redeem { display: inline-block; margin-top: 26px; font-size: 14px; color: var(--soft); border-bottom: 1px solid var(--line); padding-bottom: 2px; transition: color .2s, border-color .2s; }
-  .redeem:hover { color: var(--glow); border-color: var(--glow); }
+  /* 兌換碼 */
+  .redeemer { background: var(--deep); }
+  .rd { max-width: 380px; margin: 36px auto 0; display: grid; gap: 14px; }
+  .rd-signin, .rd-form { display: grid; gap: 12px; }
+  .rd-pill { width: 100%; padding: 12px 18px; border-radius: 99px; border: 1px solid var(--line); background: rgba(255,255,255,.06); color: var(--ink); font: inherit; letter-spacing: .12em; cursor: pointer; transition: background .2s, border-color .2s; }
+  .rd-pill:hover { background: rgba(255,255,255,.12); border-color: var(--soft); }
+  .rd-pill.go { background: var(--ink); color: var(--night); border-color: var(--ink); font-weight: 500; }
+  .rd-pill:disabled { opacity: .5; cursor: default; }
+  .rd-who { font-size: 13px; color: var(--soft); word-break: break-all; }
+  .rd-out { margin-left: 10px; background: none; border: 0; color: var(--faint); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  #rdCode { width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: var(--ink); text-align: center;
+    font-family: var(--latin); font-size: 22px; letter-spacing: .18em; text-transform: uppercase; outline: none; }
+  #rdCode:focus { border-color: var(--soft); }
+  .rd-msg { min-height: 1.8em; font-size: 14px; color: var(--soft); }
+  .rd-msg.ok { color: var(--glow); }
+  [hidden] { display: none !important; }
   footer .maker { color: var(--soft); letter-spacing: .1em; margin-bottom: 10px; }
   footer nav { display: flex; justify-content: center; gap: 22px; margin-bottom: 10px; }
   footer nav a:hover { color: var(--ink); }
@@ -203,7 +217,7 @@
     <a href="#regions">旅途</a>
     <a href="#gallery">風景</a>
     <a href="#download">下載</a>
-    <a href="https://eluvanor.web.app/redeem/">兌換碼</a>
+    <a href="#redeem">兌換碼</a>
   </nav>
   <div class="lang" id="lang" role="group" aria-label="Language"></div>
   </div>
@@ -347,6 +361,28 @@
     </div>
   </section>
 
+  <!-- 兌換碼: sign in with the account bound in the game, enter a code; it reaches the game the next time it opens.
+       Codes live in the game's Firebase (Firestore codes / redeems, guarded by the game's firestore.rules). -->
+  <section class="redeemer" id="redeem">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Redeem</p>
+      <h2 class="reveal">兌換碼</h2>
+      <p class="lead reveal">請用遊戲裡「綁定資料」的同一個帳號登入。兌換的東西會在下次開啟遊戲時送到。</p>
+      <div class="rd reveal">
+        <div class="rd-signin" id="rdSignin">
+          <button class="rd-pill" type="button" data-k="google">以 Google 帳號登入</button>
+          <button class="rd-pill" type="button" data-k="apple">以 Apple 帳號登入</button>
+        </div>
+        <form class="rd-form" id="rdForm" hidden autocomplete="off">
+          <p class="rd-who"><span id="rdWho"></span><button class="rd-out" type="button" id="rdOut">登出</button></p>
+          <input id="rdCode" maxlength="32" placeholder="XXXX-XXXX" aria-label="兌換碼" autocapitalize="characters" spellcheck="false">
+          <button class="rd-pill go" id="rdGo" type="submit">兌換</button>
+        </form>
+        <p class="rd-msg" id="rdMsg" role="status"></p>
+      </div>
+    </div>
+  </section>
+
   <!-- 結尾下載 -->
   <section class="closing" id="download">
     <div class="bg" aria-hidden="true"></div>
@@ -355,7 +391,6 @@
       <h2 class="reveal">停下來，看看身後的風景</h2>
       <p class="lead reveal">手機與平板皆可遊玩。</p>
       <div class="stores reveal"></div>
-      <a class="redeem reveal" href="https://eluvanor.web.app/redeem/">兌換碼 →</a>
     </div>
   </section>
 </main>
@@ -363,7 +398,7 @@
 <footer>
   <div class="mark">Eluvanor</div>
   <p class="maker">N. Veslor Studio｜半格製作所</p>
-  <nav><a href="#top">回到頂端</a><a href="https://eluvanor.web.app/redeem/">兌換碼</a></nav>
+  <nav><a href="#top">回到頂端</a><a href="#redeem">兌換碼</a></nav>
   <p>© 2026 N. Veslor Studio</p>
 </footer>
 
@@ -418,6 +453,13 @@
       '停下來，看看身後的風景': 'Pause, and look at the view behind you',
       '手機與平板皆可遊玩。': 'Playable on phones and tablets.',
       '回到頂端': 'Back to top', '兌換碼': 'Redeem a Code', '兌換碼 →': 'Redeem a code →',
+      '請用遊戲裡「綁定資料」的同一個帳號登入。兌換的東西會在下次開啟遊戲時送到。': 'Sign in with the account linked in the game (Settings → Link Account). What you redeem arrives the next time you open the game.',
+      '以 Google 帳號登入': 'Sign in with Google', '以 Apple 帳號登入': 'Sign in with Apple', '登出': 'Sign out', '兌換': 'Redeem',
+      '請輸入兌換碼': 'Please enter a code', '兌換中…': 'Redeeming…', '兌換碼不正確': 'That code isn’t valid', '這組兌換碼已過期': 'This code has expired',
+      '這組兌換碼已兌換完畢': 'This code has been used up', '這個帳號已經兌換過這組兌換碼': 'This account has already used this code',
+      '兌換成功：{n} 道Lumen微光，下次開啟遊戲時送到': 'Redeemed: {n} Lumen lights, arriving next time you open the game',
+      '兌換成功：Lumen的微光不再減少，下次開啟遊戲時生效': 'Redeemed: Lumen’s light will no longer run out, from the next time you open the game',
+      '目前無法兌換，請稍後再試': 'Can’t redeem right now. Please try again later', '登入沒有完成': 'Sign-in wasn’t completed',
       '即將上架，敬請期待': 'Coming soon',
       '旅人站在崖邊仰望銀河': 'The Wayfarer on a cliff, gazing at the Milky Way',
       '在 App Store 下載': 'Download on the App Store', '在 Google Play 下載': 'Get it on Google Play',
@@ -427,7 +469,7 @@
   };
   let lang = 'zh';
   const t = zh => (DICT[lang] && DICT[lang][zh]) || zh;
-  const TEXT = 'nav a, .redeem, .tag, h2, .poem p, .lead, .feat h3, .feat p, #again, .demo-cap, .region h3, .region p, .shot span, .who h3, .who p, .fact span, footer nav a';
+  const TEXT = 'nav a, .rd-pill, .rd-out, .tag, h2, .poem p, .lead, .feat h3, .feat p, #again, .demo-cap, .region h3, .region p, .shot span, .who h3, .who p, .fact span, footer nav a';
   const ATTRS = ['alt', 'aria-label', 'content'];
   const langHooks = [];
   const setLang = id => {
@@ -545,6 +587,50 @@
   addEventListener('keydown', e => { if (e.key === 'Escape') light.classList.remove('on'); });
 
   // theme music, off until the visitor asks
+  // 兌換碼: the game's Firebase is fetched only once the section comes near, then a code is looked up (so the message can
+  // say why it won't work) and redeemed in one write — the account's record of it, and the code's count up by one
+  const FB = 'https://www.gstatic.com/firebasejs/10.12.2/';
+  let fb = null;
+  const loadFb = () => fb ||= (async () => {
+    const add = f => new Promise((ok, no) => { const sc = document.createElement('script'); sc.src = FB + f; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });
+    await add('firebase-app-compat.js'); await Promise.all([add('firebase-auth-compat.js'), add('firebase-firestore-compat.js')]);
+    firebase.initializeApp({ apiKey: 'AIzaSyDWFtbn3NgRQBvJJwDls73zRMAX6-qkZ7E', authDomain: 'wanderlight.firebaseapp.com', projectId: 'wanderlight', // the game's own Firebase web app
+      storageBucket: 'wanderlight.firebasestorage.app', messagingSenderId: '611408022992', appId: '1:611408022992:web:59c468e5526806b15d7dd5' });
+    firebase.auth().onAuthStateChanged(u => { $('#rdSignin').hidden = !!u; $('#rdForm').hidden = !u; if (u) $('#rdWho').textContent = u.email || u.displayName || ''; });
+  })();
+  new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting)) { loadFb().catch(() => {}); o.disconnect(); } }, { rootMargin: '400px' }).observe($('#redeem'));
+  const rdSay = (msg, ok) => { $('#rdMsg').textContent = msg; $('#rdMsg').classList.toggle('ok', !!ok); };
+  $('#rdSignin').addEventListener('click', async e => {
+    const b = e.target.closest('[data-k]'); if (!b) return;
+    try { await loadFb(); } catch (err) { return rdSay(t('目前無法兌換，請稍後再試')); }
+    const pv = b.dataset.k === 'apple' ? new firebase.auth.OAuthProvider('apple.com') : new firebase.auth.GoogleAuthProvider();
+    try { await firebase.auth().signInWithPopup(pv); rdSay(''); }
+    catch (err) { if (err.code === 'auth/popup-blocked') return firebase.auth().signInWithRedirect(pv); if (err.code !== 'auth/popup-closed-by-user') rdSay(t('登入沒有完成')); }
+  });
+  $('#rdOut').addEventListener('click', () => { firebase.auth().signOut(); rdSay(''); });
+  $('#rdForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const code = $('#rdCode').value.toUpperCase().replace(/\s+/g, ''), u = firebase.auth().currentUser, db = firebase.firestore();
+    if (!code) return rdSay(t('請輸入兌換碼'));
+    if (!u || /[\/.]/.test(code)) return rdSay(t('兌換碼不正確'));
+    $('#rdGo').disabled = true; rdSay(t('兌換中…'));
+    try {
+      const ref = db.collection('codes').doc(code), mine = db.collection('redeems').doc(`${u.uid}_${code}`), c = await ref.get();
+      if (!c.exists) return rdSay(t('兌換碼不正確'));
+      const d = c.data();
+      if (d.until && d.until.toMillis() <= Date.now()) return rdSay(t('這組兌換碼已過期'));
+      if ((d.used || 0) >= (d.max ?? 1)) return rdSay(t('這組兌換碼已兌換完畢'));
+      if ((await mine.get()).exists) return rdSay(t('這個帳號已經兌換過這組兌換碼'));
+      const batch = db.batch();
+      batch.set(mine, { uid: u.uid, code, lumen: d.lumen || 0, unlimited: d.unlimited || false, at: firebase.firestore.FieldValue.serverTimestamp() });
+      batch.update(ref, { used: firebase.firestore.FieldValue.increment(1) });
+      await batch.commit();
+      $('#rdCode').value = '';
+      rdSay(d.unlimited ? t('兌換成功：Lumen的微光不再減少，下次開啟遊戲時生效') : t('兌換成功：{n} 道Lumen微光，下次開啟遊戲時送到').replace('{n}', d.lumen || 0), true);
+    } catch (err) { rdSay(t('目前無法兌換，請稍後再試')); }
+    finally { $('#rdGo').disabled = false; }
+  });
+
   // first visit: ?lang=, then the saved choice, then the browser's language
   let saved = null; try { saved = localStorage.getItem('eluvanor.site.lang') || localStorage.getItem('wanderlight.site.lang'); } catch (e) {}
   const asked = new URLSearchParams(location.search).get('lang');
