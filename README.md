@@ -1,5 +1,7 @@
 # Eluvanor｜未盡之頁 官網
 
+https://naomi-portfolio.github.io/eluvanor/
+
 Eluvanor（舊名 Wanderlight）的一頁式介紹網站，用 GitHub Pages 發佈。純 HTML，沒有建置步驟：直接開 `index.html` 就能看。
 
 - 商店上架後，把 `index.html` 裡兩個 `.store` 按鈕的 `href="#"` 換成 App Store／Google Play 網址。
