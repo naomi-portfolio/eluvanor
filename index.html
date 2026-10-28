@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Wanderlight</title>
-<meta name="description" content="Wanderlight — 迷失方向的旅人，拼回被打亂的風景，也拼回被遺忘的自己。一款治癒系滑塊拼圖冒險。">
+<title>Eluvanor｜未盡之頁</title>
+<meta name="description" content="Eluvanor｜未盡之頁 — 迷失方向的旅人，拼回被打亂的風景，也拼回被遺忘的自己。一款治癒系滑塊拼圖冒險。">
 <meta name="theme-color" content="#0d1a2e">
-<meta property="og:title" content="Wanderlight">
+<meta property="og:title" content="Eluvanor｜未盡之頁">
+<meta name="author" content="N. Veslor Studio">
 <meta property="og:description" content="拼回被打亂的風景，也拼回被遺忘的自己。">
 <meta property="og:image" content="img/hero.webp">
 <link rel="icon" href="img/icon.png">
@@ -61,6 +62,8 @@
   @keyframes drift { to { transform: scale(1.12) translateY(-1.5%); } }
   .hero .copy { width: 100%; padding: 0 var(--gutter) clamp(48px, 10vh, 96px); text-align: center; }
   .title { font-family: var(--latin); font-weight: 300; font-size: clamp(54px, 14vw, 132px); line-height: 1; letter-spacing: .08em; text-indent: .08em; text-shadow: 0 0 40px rgba(243,220,150,.25); }
+  .subtitle { margin-top: 10px; font-size: clamp(15px, 2.4vw, 20px); letter-spacing: .6em; text-indent: .6em; color: var(--soft); text-shadow: 0 1px 12px rgba(6,12,24,.9); }
+  html[lang="en"] .subtitle { display: none; } /* English first: the Chinese name only on the Chinese page */
   .tag { text-shadow: 0 1px 12px rgba(6,12,24,.9); margin: 18px auto 0; max-width: 30em; font-size: clamp(15px, 2.2vw, 19px); color: var(--soft); }
   .stores { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
   .store { position: relative; display: inline-flex; align-items: center; gap: 12px; min-width: 186px; padding: 10px 22px 10px 18px; border-radius: 14px; background: rgba(0,0,0,.78); border: 1px solid rgba(255,255,255,.28); color: #fff; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0; line-height: 1.15; text-align: left; transition: transform .2s, border-color .2s, box-shadow .2s; }
@@ -164,6 +167,7 @@
 
   footer { padding: 40px var(--gutter) 48px; text-align: center; color: var(--faint); font-size: 13px; border-top: 1px solid var(--line); }
   footer .mark { font-family: var(--latin); font-size: 20px; color: var(--soft); letter-spacing: .14em; margin-bottom: 8px; }
+  footer .maker { color: var(--soft); letter-spacing: .1em; margin-bottom: 10px; }
   footer nav { display: flex; justify-content: center; gap: 22px; margin-bottom: 10px; }
   footer nav a:hover { color: var(--ink); }
 
@@ -189,7 +193,7 @@
 <body>
 
 <header class="bar" id="bar">
-  <a class="mark" href="#top">Wanderlight</a>
+  <a class="mark" href="#top">Eluvanor</a>
   <div class="right">
   <nav>
     <a href="#story">故事</a>
@@ -204,11 +208,12 @@
 
 <main id="top">
   <!-- 首頁大橫幅 -->
-  <section class="hero" aria-label="Wanderlight">
+  <section class="hero" aria-label="Eluvanor">
     <div class="art" role="img" aria-label="旅人站在崖邊仰望銀河"></div>
     <canvas id="sky"></canvas>
     <div class="copy">
-      <h1 class="title">Wanderlight</h1>
+      <h1 class="title">Eluvanor</h1>
+      <p class="subtitle">未盡之頁</p>
       <p class="tag">迷失方向的旅人，拼回被打亂的風景，<br>也拼回被遺忘的自己。</p>
       <div class="stores">
         <!-- 上架後把 href="#" 換成商店網址 -->
@@ -231,7 +236,7 @@
       <p class="eyebrow reveal">Prologue</p>
       <h2 class="reveal">遺失的方向</h2>
       <div class="poem">
-        <p class="reveal">在遙遠的世界艾瑟蘭，有無數條通往未知的道路。</p>
+        <p class="reveal">在遙遠的世界艾露瓦諾，有無數條通往未知的道路。</p>
         <p class="reveal">最初，旅人會為路邊的一朵花停下，<br>也會仰望夜空中明亮的星辰。</p>
         <p class="reveal">但不知從何時開始，前進成了唯一的習慣，<br>珍視的風景一點一點被留在身後。</p>
         <p class="reveal">直到某天走進晨霧裡的森林，<br>道路像被打亂的圖畫，四散在眼前。</p>
@@ -352,12 +357,13 @@
 </main>
 
 <footer>
-  <div class="mark">Wanderlight</div>
+  <div class="mark">Eluvanor</div>
+  <p class="maker">N. Veslor Studio｜半格製作所</p>
   <nav><a href="#top">回到頂端</a></nav>
-  <p>© 2026 Wanderlight. All rights reserved.</p>
+  <p>© 2026 N. Veslor Studio</p>
 </footer>
 
-<button class="sound" id="sound" type="button" aria-label="播放主題曲〈Wanderlight〉"><span class="bars"><i></i><i></i><i></i></span></button>
+<button class="sound" id="sound" type="button" aria-label="播放主題曲〈Eluvanor〉"><span class="bars"><i></i><i></i><i></i></span></button>
 <div class="toast" id="toast" role="status"></div>
 <div class="light" id="light"><div><img alt=""><p></p></div></div>
 <audio id="theme" src="img/theme.mp3" loop preload="none"></audio>
@@ -375,7 +381,7 @@
       '故事': 'Story', '玩法': 'Gameplay', '旅途': 'Journey', '風景': 'Scenery', '下載': 'Download',
       '迷失方向的旅人，拼回被打亂的風景，<br>也拼回被遺忘的自己。': 'A wanderer who has lost their way pieces scattered landscapes back together,<br>and with them, a forgotten self.',
       '遺失的方向': 'The Lost Direction',
-      '在遙遠的世界艾瑟蘭，有無數條通往未知的道路。': 'In the distant world of Aetheran, countless roads lead into the unknown.',
+      '在遙遠的世界艾露瓦諾，有無數條通往未知的道路。': 'In the distant world of Eluvanor, countless roads lead into the unknown.',
       '最初，旅人會為路邊的一朵花停下，<br>也會仰望夜空中明亮的星辰。': 'Once, the Wayfarer would stop for a flower by the road,<br>and look up at the bright stars of the night.',
       '但不知從何時開始，前進成了唯一的習慣，<br>珍視的風景一點一點被留在身後。': 'But somewhere along the way, moving on became the only habit,<br>and treasured views were left behind, one by one.',
       '直到某天走進晨霧裡的森林，<br>道路像被打亂的圖畫，四散在眼前。': 'Until one day, in a forest wrapped in morning mist,<br>the path lay scattered like a shuffled picture.',
@@ -411,8 +417,8 @@
       '即將上架，敬請期待': 'Coming soon',
       '旅人站在崖邊仰望銀河': 'The Wayfarer on a cliff, gazing at the Milky Way',
       '在 App Store 下載': 'Download on the App Store', '在 Google Play 下載': 'Get it on Google Play',
-      '播放主題曲〈Wanderlight〉': 'Play the theme, “Wanderlight”',
-      'Wanderlight — 迷失方向的旅人，拼回被打亂的風景，也拼回被遺忘的自己。一款治癒系滑塊拼圖冒險。': 'Wanderlight — a wanderer who has lost their way pieces scattered landscapes, and a forgotten self, back together. A gentle sliding-puzzle journey.',
+      '播放主題曲〈Eluvanor〉': 'Play the theme, “Eluvanor”',
+      'Eluvanor｜未盡之頁 — 迷失方向的旅人，拼回被打亂的風景，也拼回被遺忘的自己。一款治癒系滑塊拼圖冒險。': 'Eluvanor — a wanderer who has lost their way pieces scattered landscapes, and a forgotten self, back together. A gentle sliding-puzzle journey.',
     },
   };
   let lang = 'zh';
@@ -436,7 +442,7 @@
     });
     document.querySelectorAll('#lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === lang));
     langHooks.forEach(f => f());
-    try { localStorage.setItem('wanderlight.site.lang', lang); } catch (e) {}
+    try { localStorage.setItem('eluvanor.site.lang', lang); } catch (e) {}
   };
   $('#lang').innerHTML = LANGS.map(l => `<button type="button" data-id="${l.id}" lang="${l.html}">${l.label}</button>`).join('');
   $('#lang').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setLang(b.dataset.id); });
@@ -536,7 +542,7 @@
 
   // theme music, off until the visitor asks
   // first visit: ?lang=, then the saved choice, then the browser's language
-  let saved = null; try { saved = localStorage.getItem('wanderlight.site.lang'); } catch (e) {}
+  let saved = null; try { saved = localStorage.getItem('eluvanor.site.lang') || localStorage.getItem('wanderlight.site.lang'); } catch (e) {}
   const asked = new URLSearchParams(location.search).get('lang');
   const browser = (navigator.languages || [navigator.language]).map(l => l.slice(0, 2)).find(l => l === 'zh' || DICT[l]);
   setLang(asked || saved || browser || 'en');
