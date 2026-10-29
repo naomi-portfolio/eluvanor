@@ -13,7 +13,7 @@
 <link rel="icon" href="img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+TC:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap">
 <style>
   :root {
     --night: #0b1626;
@@ -29,7 +29,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: var(--night); color: var(--ink); font-family: var(--serif); font-weight: 300; line-height: 1.9; letter-spacing: .04em; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  body { background: var(--night); color: var(--ink); font-family: var(--serif); font-weight: 400; line-height: 1.9; text-shadow: 0 1px 6px rgba(0,0,0,.45); letter-spacing: .04em; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
 
@@ -62,14 +62,17 @@
   @keyframes drift { to { transform: scale(1.12) translateY(-1.5%); } }
   .hero .copy { width: 100%; padding: 0 var(--gutter) clamp(48px, 10vh, 96px); text-align: center; }
   .title { font-family: var(--latin); font-weight: 300; font-size: clamp(54px, 14vw, 132px); line-height: 1; letter-spacing: .08em; text-indent: .08em; text-shadow: 0 0 40px rgba(243,220,150,.25); }
-  .subtitle { margin-top: 10px; font-size: clamp(15px, 2.4vw, 20px); letter-spacing: .6em; text-indent: .6em; color: var(--soft); text-shadow: 0 1px 12px rgba(6,12,24,.9); }
+  .subtitle { margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 16px; font-size: clamp(15px, 2.4vw, 20px); font-weight: 500; letter-spacing: .6em; text-indent: .6em; color: var(--ink); text-shadow: 0 0 8px rgba(255,255,255,.45), 0 1px 12px rgba(6,12,24,.9); }
+  /* two faint lines fading outward on either side, as under the logo in the game */
+  .subtitle::before, .subtitle::after { content: ''; width: clamp(46px, 7vw, 80px); height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.75)); }
+  .subtitle::after { transform: scaleX(-1); }
   html[lang="en"] .subtitle { display: none; } /* English first: the Chinese name only on the Chinese page */
   .tag { text-shadow: 0 1px 12px rgba(6,12,24,.9); margin: 18px auto 0; max-width: 30em; font-size: clamp(15px, 2.2vw, 19px); color: var(--soft); }
   .stores { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
   .store { position: relative; display: inline-flex; align-items: center; gap: 12px; min-width: 186px; padding: 10px 22px 10px 18px; border-radius: 14px; background: rgba(0,0,0,.78); border: 1px solid rgba(255,255,255,.28); color: #fff; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0; line-height: 1.15; text-align: left; transition: transform .2s, border-color .2s, box-shadow .2s; }
   .store:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.6); box-shadow: 0 8px 28px rgba(0,0,0,.4); }
   .store svg { width: 28px; height: 28px; flex: none; }
-  .store small { display: block; font-size: 11px; opacity: .85; }
+  .store small { display: block; font-size: 12px; opacity: .85; }
   .store b { display: block; font-size: 20px; font-weight: 600; }
   .scroll-cue { display: block; width: 1px; height: 46px; margin: 40px auto 0; background: linear-gradient(var(--soft), transparent); animation: cue 2.4s ease-in-out infinite; }
   @keyframes cue { 0%,100% { opacity: .2; transform: scaleY(.6); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }
@@ -111,7 +114,7 @@
   .demo-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 14px; color: var(--soft); min-height: 28px; }
   .demo-meta button { background: none; border: 1px solid var(--line); color: var(--soft); font: inherit; font-size: 13px; padding: 4px 14px; border-radius: 99px; cursor: pointer; }
   .demo-meta button:hover { color: var(--ink); border-color: var(--soft); }
-  .demo-cap { margin-top: 8px; text-align: center; font-size: 13px; color: var(--faint); }
+  .demo-cap { margin-top: 8px; text-align: center; font-size: 14px; color: var(--faint); }
 
   /* regions */
   .regions { background: linear-gradient(var(--deep), var(--night)); }
@@ -147,7 +150,7 @@
   .who { padding: 30px 28px; border-radius: 16px; background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01)); box-shadow: inset 0 0 0 1px var(--line); }
   .who .glyph { width: 64px; height: 64px; margin-bottom: 18px; border-radius: 50%; background: url(img/hero.webp) -12px -118px / 183px auto no-repeat; box-shadow: 0 0 0 1px var(--line); }
   .who h3 { font-size: 22px; font-weight: 500; letter-spacing: .16em; }
-  .who h3 small { margin-left: 10px; font-family: var(--latin); font-style: italic; font-size: 16px; font-weight: 300; letter-spacing: .1em; color: var(--faint); }
+  .who h3 small { margin-left: 10px; font-family: var(--latin); font-style: italic; font-size: 16px; font-weight: 400; letter-spacing: .1em; color: var(--faint); }
   .who p { margin-top: 10px; color: var(--soft); font-size: 15px; }
   .lumen-dot { width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #fff7da 0 8%, rgba(243,220,150,.75) 18%, rgba(243,220,150,.12) 46%, transparent 70%); animation: breathe 3.6s ease-in-out infinite; margin-bottom: 18px; }
   @keyframes breathe { 50% { transform: scale(1.18); opacity: .7; } }
@@ -157,7 +160,7 @@
   @media (max-width: 700px) { .facts { grid-template-columns: repeat(2, 1fr); } }
   .fact { background: var(--deep); padding: 26px 12px; text-align: center; }
   .fact b { display: block; font-family: var(--latin); font-weight: 300; font-size: 44px; line-height: 1.1; color: var(--glow); }
-  .fact span { font-size: 13px; color: var(--soft); letter-spacing: .14em; }
+  .fact span { font-size: 14px; color: var(--soft); letter-spacing: .14em; }
 
   /* closing */
   .closing { position: relative; overflow: hidden; text-align: center; isolation: isolate; padding-block: clamp(110px, 20vh, 200px); }
@@ -166,7 +169,7 @@
   .closing .lead { margin-inline: auto; }
   .closing h2 { font-size: clamp(24px, 4vw, 36px); }
 
-  footer { padding: 40px var(--gutter) 48px; text-align: center; color: var(--faint); font-size: 13px; border-top: 1px solid var(--line); }
+  footer { padding: 40px var(--gutter) 48px; text-align: center; color: var(--faint); font-size: 14px; border-top: 1px solid var(--line); }
   footer .mark { font-family: var(--latin); font-size: 20px; color: var(--soft); letter-spacing: .14em; margin-bottom: 8px; }
   /* 兌換碼 */
   .redeemer { background: var(--deep); }
@@ -176,7 +179,7 @@
   .rd-pill:hover { background: rgba(255,255,255,.12); border-color: var(--soft); }
   .rd-pill.go { background: var(--ink); color: var(--night); border-color: var(--ink); font-weight: 500; }
   .rd-pill:disabled { opacity: .5; cursor: default; }
-  .rd-who { font-size: 13px; color: var(--soft); word-break: break-all; }
+  .rd-who { font-size: 14px; color: var(--soft); word-break: break-all; }
   .rd-out { margin-left: 10px; background: none; border: 0; color: var(--faint); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   #rdCode { width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: rgba(0,0,0,.25); color: var(--ink); text-align: center;
     font-family: var(--latin); font-size: 22px; letter-spacing: .18em; text-transform: uppercase; outline: none; }
@@ -205,12 +208,17 @@
     .hero .art, .scroll-cue, .needle::before, .lumen-dot { animation: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
+  button, input { text-shadow: inherit; } /* every line of text carries the same faint dark shadow */
+  /* the logo artwork (with its own outer glow) in place of the typed name */
+  .title img { display: block; width: min(86vw, 640px); height: auto; margin: 0 auto; }
+  .bar .mark img { display: block; height: 30px; width: auto; }
+  footer .mark img { display: block; height: 34px; width: auto; margin: 0 auto; opacity: .85; }
 </style>
 </head>
 <body>
 
 <header class="bar" id="bar">
-  <a class="mark" href="#top">Eluvanor</a>
+  <a class="mark" href="#top"><img src="img/logo.webp" alt="Eluvanor"></a>
   <div class="right">
   <nav>
     <a href="#story">故事</a>
@@ -230,7 +238,7 @@
     <div class="art" role="img" aria-label="旅人站在崖邊仰望銀河"></div>
     <canvas id="sky"></canvas>
     <div class="copy">
-      <h1 class="title">Eluvanor</h1>
+      <h1 class="title"><img src="img/logo.webp" alt="Eluvanor" width="2000" height="557"></h1>
       <p class="subtitle">未盡之頁</p>
       <p class="tag">迷失方向的旅人，拼回被打亂的風景，<br>也拼回被遺忘的自己</p>
       <div class="stores">
@@ -397,7 +405,7 @@
 </main>
 
 <footer>
-  <div class="mark">Eluvanor</div>
+  <div class="mark"><img src="img/logo.webp" alt="Eluvanor"></div>
   <p class="maker">N. Veslor Studio｜半格製作所</p>
   <nav><a href="#top">回到頂端</a><a href="#redeem">兌換碼</a></nav>
   <p>© 2026 N. Veslor Studio</p>
